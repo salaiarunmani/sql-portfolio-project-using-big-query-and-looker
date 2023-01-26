@@ -12,6 +12,7 @@ Dataset : 2022 layoff dataset
 -rand function to get random data from dataset
 -date function(to extract month number , month name,quarter no)
 -sub-query
+![big query](https://user-images.githubusercontent.com/80448838/214810101-98f75189-3e71-47a2-9f99-8c2e6ee2e005.JPG)
+![looker](https://user-images.githubusercontent.com/80448838/214810142-719a6357-e4e4-4f6a-b593-a04829c62b61.JPG)
 
-![big query](https://user-images.githubusercontent.com/80448838/214802589-48e72653-382b-4b7d-91cb-6672e0283e21.JPG)
-![image](https://user-images.githubusercontent.com/80448838/214802652-99562614-ce6e-4159-85f4-639bf3192ab4.png)
+
