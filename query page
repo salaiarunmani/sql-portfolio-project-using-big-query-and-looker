@@ -1,0 +1,70 @@
+
+/*show the result with limit by 10*/
+SELECT * FROM `salai2ndproject.layoff_dataset.worldlayoffdata` limit 10;
+
+/*Create a report to show the company's stage and the layoffs they have done*/
+SELECT Stage,sum(Total_Laid_Off) as Laid_Off
+from `salai2ndproject.layoff_dataset.worldlayoffdata`
+group by Stage
+order by Laid_Off desc;
+
+/*Show the list of industries with average layoffs of at least 30000*/
+SELECT Industry, Total_Laid_Off 
+FROM `salai2ndproject.layoff_dataset.worldlayoffdata`
+GROUP BY Industry
+HAVING avg(Total_Laid_Off) >= 30000;
+
+/*show the list of top 5 cities with 5 highest layoffs in the world*/
+select Location,sum(Total_Laid_Off) as Total_Laidoff
+from `salai2ndproject.layoff_dataset.worldlayoffdata`
+group by Location
+order by Total_Laidoff desc
+limit 5;
+
+/*show the list of top 5 Indian industries that have laid off people*/
+select Industry,sum(Total_Laid_Off) as Total_Laidoff
+from `salai2ndproject.layoff_dataset.worldlayoffdata`
+where Country = 'India'
+group by Industry
+order by Total_Laidoff desc
+limit 5;
+
+/*show min no of total_laid_off by country,location,Company*/
+select Country,Location,Company,Total_Laid_Off from(
+  select e.*,
+  last_value(Total_Laid_Off) over (partition by Country order by Total_Laid_Off desc range between unbounded preceding 
+  and unbounded following) as orders
+  from `salai2ndproject.layoff_dataset.worldlayoffdata` e
+  order by Country)x
+where Total_Laid_Off=x.orders;
+
+/*show country wise top 3 companies who laid_off there emp*/
+select Country,Company,Total_Laid_Off from(
+  select e.*,
+  rank() over(partition by Country order by Total_Laid_Off desc) as top
+  from `salai2ndproject.layoff_dataset.worldlayoffdata` e
+  order by Country)x
+where x.top <= 3;
+
+/*show random data*/
+select * 
+from `salai2ndproject.layoff_dataset.worldlayoffdata`
+order by rand()
+limit 10;
+
+/*month wise laid_off*/
+select format_date('%m',Date) as monthno,format_date('%B',Date) as Monthwise,sum(Total_Laid_Off) as Laid_Off
+from `salai2ndproject.layoff_dataset.worldlayoffdata`
+group by monthno,Monthwise
+order by Monthno;
+
+/*show the laidoff , Quarter wise*/
+select
+extract(quarter from Date) as Quarter,sum(Total_Laid_Off) as Laid_Off
+from `salai2ndproject.layoff_dataset.worldlayoffdata`
+Group by extract(quarter from Date);
+
+
+
+
+
